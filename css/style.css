@@ -1,4 +1,4 @@
-/* ============================================
+ /* ============================================
    DATA COMMUNICATION COURSE WEBSITE
    Professional CSS Stylesheet
    ============================================ */
@@ -191,7 +191,7 @@ body {
     display: flex;
     gap: 16px;
 }
-.btn {
+[5/20/2026 9:36 PM] Bestie ❤️💕 💞💙💻: .btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -803,7 +803,7 @@ body {
     grid-template-columns: repeat(6, 1fr);
     gap: 12px;
 }
- .morse-item {
+[5/20/2026 9:36 PM] Bestie ❤️💕 💞💙💻: .morse-item {
     background: white;
     padding: 12px;
     border-radius: 8px;
@@ -1019,7 +1019,7 @@ body {
     border-color: var(--primary);
     background: rgba(37, 99, 235, 0.05);
 }
-.upload-area i {
+[5/20/2026 9:36 PM] Bestie ❤️💕 💞💙💻: .upload-area i {
     font-size: 2rem;
     color: var(--primary);
     margin-bottom: 10px;
@@ -1249,7 +1249,7 @@ body {
 .footer-section ul {
     list-style: none;
 }
-.footer-bottom {
+[5/20/2026 9:36 PM] Bestie ❤️💕 💞💙💻: .footer-bottom {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 20px;
     text-align: center;
