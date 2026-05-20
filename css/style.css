@@ -1,4 +1,4 @@
-[5/20/2026 9:21 PM] Bestie ❤️💕 💞💙💻: /* ============================================
+/* ============================================
    DATA COMMUNICATION COURSE WEBSITE
    Professional CSS Stylesheet
    ============================================ */
@@ -191,7 +191,7 @@ body {
     display: flex;
     gap: 16px;
 }
-[5/20/2026 9:21 PM] Bestie ❤️💕 💞💙💻: .btn {
+.btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -358,7 +358,7 @@ body {
     align-items: start;
     margin-top: 50px;
 }
-[5/20/2026 9:21 PM] Bestie ❤️💕 💞💙💻: .about-image {
+.about-image {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -579,7 +579,7 @@ body {
     justify-content: center;
     margin-bottom: 20px;
 }
-[5/20/2026 9:21 PM] Bestie ❤️💕 💞💙💻: .topic-icon i {
+ .topic-icon i {
     font-size: 1.5rem;
     color: var(--primary);
 }
@@ -803,7 +803,7 @@ body {
     grid-template-columns: repeat(6, 1fr);
     gap: 12px;
 }
-[5/20/2026 9:21 PM] Bestie ❤️💕 💞💙💻: .morse-item {
+ .morse-item {
     background: white;
     padding: 12px;
     border-radius: 8px;
@@ -1019,7 +1019,7 @@ body {
     border-color: var(--primary);
     background: rgba(37, 99, 235, 0.05);
 }
-[5/20/2026 9:21 PM] Bestie ❤️💕 💞💙💻: .upload-area i {
+.upload-area i {
     font-size: 2rem;
     color: var(--primary);
     margin-bottom: 10px;
@@ -1249,7 +1249,7 @@ body {
 .footer-section ul {
     list-style: none;
 }
-[5/20/2026 9:21 PM] Bestie ❤️💕 💞💙💻: .footer-bottom {
+.footer-bottom {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 20px;
     text-align: center;
