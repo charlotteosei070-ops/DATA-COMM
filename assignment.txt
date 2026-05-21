@@ -1,8 +1,8 @@
-Assignment — Data Communication
+Assignment — Data Communication Satellite
 
 Course: Data Communication
-Student: Your Name Here
-ID: 000000
+Student: CHARLOTTE ADAMPTEY
+ID: PUIT/24110064
 
 Instructions:
 1. Read the list of topics covered this semester.
