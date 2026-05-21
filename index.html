@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Communication - Course Portfolio</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- PDF.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <style>
+        /* PDF viewer modal styles */
+        .file-modal .modal-content {
+            max-width: 90%;
+            width: 1000px;
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .file-modal .modal-body {
+            flex: 1;
+            overflow: auto;
+            padding: 0;
+            background: #525659;
+        }
+        .viewer-actions {
+            padding: 12px;
+            background: #f5f7fa;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .btn-primary {
+            background: #3182ce;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-primary:hover { background: #2c5282; }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #718096;
+        }
+        .close-btn:hover { color: #e53e3e; }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            background: white;
+        }
+        /* PDF canvas container – each page as an image */
+        #pdfPagesContainer {
+            background: #525659;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            gap: 20px;
+        }
+        .pdf-page-canvas {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            background: white;
+            max-width: 100%;
+            height: auto;
+        }
+        .loading-message {
+            color: white;
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+        }
+        .error-message {
+            color: #fc8181;
+            text-align: center;
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-network-wired"></i>
+                <span>DataComm</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#topics" class="nav-link">Topics</a></li>
+                <li><a href="#resources" class="nav-link">Resources</a></li>
+                <li><a href="#assignments" class="nav-link">Assignments</a></li>
+                <li><a href="#about" class="nav-link">About Me</a></li>
+                <li><a href="https://github.com/charlotteosei070-ops/DATA-COMM" target="_blank" class="nav-link nav-github"><i class="fab fa-github"></i> GitHub</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section (shortened for brevity) -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Data Communication</h1>
+                <p class="subtitle">Exploring the Fundamentals of Modern Networking</p>
+                <p class="student-info">
+                    <strong>Student:</strong> <span>Charlotte Adamptey</span>
+                    <strong>ID:</strong> <span>PUIT/24110064</span>
+                </p>
+            </div>
+            <div class="hero-visual">
+                <div class="network-animation">
+                    <div class="node node-1"><i class="fas fa-server"></i></div>
+                    <div class="node node-2"><i class="fas fa-laptop"></i></div>
+                    <div class="node node-3"><i class="fas fa-mobile-alt"></i></div>
+                    <div class="node node-4"><i class="fas fa-database"></i></div>
+                    <div class="connection conn-1"></div>
+                    <div class="connection conn-2"></div>
+                    <div class="connection conn-3"></div>
+                    <div class="connection conn-4"></div>
+                    <div class="data-packet packet-1"></div>
+                    <div class="data-packet packet-2"></div>
+                    <div class="data-packet packet-3"></div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- About Me Section (shortened) -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-grid">
+                <div class="about-image">
+                    <div class="image-frame">
+                        <img src="images/Me.png" alt="Student Photo">
+                    </div>
+                </div>
+                <div class="about-content">
+                    <h3>Hello, I'm <span class="highlight">Charlotte Adamptey</span></h3>
+                    <p class="bio-text">
+                        I am a dedicated student passionate about understanding how data moves across the world. 
+                        This semester has been an incredible journey exploring the foundations of data communication.
+                    </p>
+                    <div class="info-cards">
+                        <div class="info-card"><i class="fas fa-graduation-cap"></i><h4>Education</h4><p>Computer Science / IT Student</p></div>
+                        <div class="info-card"><i class="fas fa-bullseye"></i><h4>Goal</h4><p>Network Engineer</p></div>
+                        <div class="info-card"><i class="fas fa-heart"></i><h4>Passion</h4><p>Networking & Security</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inspiration Section -->
+    <section class="inspiration-section">
+        <div class="container">
+            <div class="inspiration-quote">
+                <i class="fas fa-quote-left quote-icon"></i>
+                <blockquote>"The art of communication is the language of leadership. In the digital age, understanding data communication is not just a skill—it's a superpower that connects the world."</blockquote>
+                <cite>— My Inspiration for This Course</cite>
+            </div>
+        </div>
+    </section>
+
+    <!-- Topics Section -->
+    <section id="topics" class="topics-section">
+        <div class="container">
+            <h2 class="section-title">Topics Treated This Semester</h2>
+            <p class="section-subtitle">Click on any topic to explore detailed explanations</p>
+            <div class="topics-grid">
+                <div class="topic-card" data-topic="intro"><div class="topic-icon"><i class="fas fa-book-open"></i></div><h3>Introduction to Data Communication</h3><p>Fundamentals, components, and the communication model</p><span class="topic-btn">Learn More <i class="fas fa-arrow-right"></i></span></div>
+                <div class="topic-card" data-topic="telegraph"><div class="topic-icon"><i class="fas fa-broadcast-tower"></i></div><h3>History: The Telegraph</h3><p>Understanding the first electrical communication system</p><span class="topic-btn">Learn More <i class="fas fa-arrow-right"></i></span></div>
+                <div class="topic-card" data-topic="signals"><div class="topic-icon"><i class="fas fa-wave-square"></i></div><h3>Signals & Transmission</h3><p>Analog, digital, modulation, and encoding techniques</p><span class="topic-btn">Learn More <i class="fas fa-arrow-right"></i></span></div>
+                <div class="topic-card" data-topic="media"><div class="topic-icon"><i class="fas fa-ethernet"></i></div><h3>Transmission Media</h3><p>Guided and unguided media, cables, and wireless</p><span class="topic-btn">Learn More <i class="fas fa-arrow-right"></i></span></div>
+                <div class="topic-card" data-topic="networks"><div class="topic-icon"><i class="fas fa-project-diagram"></i></div><h3>Network Topologies</h3><p>Bus, star, ring, mesh, and hybrid configurations</p><span class="topic-btn">Learn More <i class="fas fa-arrow-right"></i></span></div>
+                <div class="topic-card" data-topic="protocols"><div class="topic-icon"><i class="fas fa-layer-group"></i></div><h3>Protocols & Standards</h3><p>OSI model, TCP/IP, and communication protocols</p><span class="topic-btn">Learn More <i class="fas fa-arrow-right"></i></span></div>
+                <div class="topic-card" data-topic="error"><div class="topic-icon"><i class="fas fa-shield-alt"></i></div><h3>Error Detection & Correction</h3><p>Parity, checksum, CRC, and Hamming codes</p><span class="topic-btn">Learn More <i class="fas fa-arrow-right"></i></span></div>
+                <div class="topic-card" data-topic="switching"><div class="topic-icon"><i class="fas fa-random"></i></div><h3>Switching Techniques</h3><p>Circuit, packet, and message switching methods</p><span class="topic-btn">Learn More <i class="fas fa-arrow-right"></i></span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Topic Modal -->
+    <div id="topicModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Topic Title</h2>
+                <button class="back-btn" onclick="closeModal()"><i class="fas fa-arrow-left"></i> Back</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Telegraph Section (shortened) -->
+    <section class="telegraph-section">
+        <div class="container">
+            <h2 class="section-title">Understanding the Telegraph</h2>
+            <div class="telegraph-content">
+                <div class="telegraph-diagram">
+                    <img src="https://kimi-web-img.moonshot.cn/img/letstalkscience.ca/ae89c978fc72f33c4d45f967cd98ac6e01ca6520.png" alt="Telegraph Key Diagram">
+                    <p class="diagram-caption">Fig 1: Telegraph Key - The First Digital Communication Device</p>
+                </div>
+                <div class="telegraph-explanation">
+                    <h3>How a Layman Understands the Telegraph</h3>
+                    <div class="explanation-steps">
+                        <div class="step"><div class="step-number">1</div><div class="step-content"><h4>The Button (Key)</h4><p>Think of it like a doorbell button. When you press it, electricity flows.</p></div></div>
+                        <div class="step"><div class="step-number">2</div><div class="step-content"><h4>The Wire</h4><p>Just like a garden hose carries water, the wire carries electricity from point A to point B.</p></div></div>
+                        <div class="step"><div class="step-number">3</div><div class="step-content"><h4>The Sounder</h4><p>At the other end, a metal bar clicks when electricity arrives. Short click = dot, long click = dash.</p></div></div>
+                        <div class="step"><div class="step-number">4</div><div class="step-content"><h4>Morse Code</h4><p>Patterns of dots and dashes represent letters. SOS = ··· ––– ···</p></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources" class="resources-section">
+        <div class="container">
+            <h2 class="section-title">Learning Resources</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-icon"><i class="fas fa-video"></i></div>
+                    <h3>Video Tutorials</h3>
+                    <div class="video-container">
+                        <iframe id="youtubeVideo" width="560" height="315" src="https://www.youtube.com/embed/ULgKbLWhgEM" title="YouTube" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <button class="change-video-btn" onclick="changeVideo()"><i class="fas fa-play-circle"></i> Change Video</button>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon"><i class="fas fa-book"></i></div>
+                    <h3>Reference Materials</h3>
+                    <ul class="resource-list">
+                        <li><a href="#" data-resource="textbook"><i class="fas fa-file-pdf"></i> Course Textbook PDF</a></li>
+                        <li><a href="#" data-resource="lecture-notes"><i class="fas fa-file-pdf"></i> Lecture Notes Week 1-6</a></li>
+                    </ul>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon"><i class="fas fa-link"></i></div>
+                    <h3>External Links</h3>
+                    <ul class="resource-list">
+                        <li><a href="https://www.geeksforgeeks.org/data-communication-definition-components-types-channels/" target="_blank">GeeksforGeeks</a></li>
+                        <li><a href="https://www.tutorialspoint.com/data_communication_computer_network/index.htm" target="_blank">TutorialsPoint</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Assignments Section -->
+    <section id="assignments" class="assignments-section">
+        <div class="container">
+            <h2 class="section-title">Assignments & Projects</h2>
+            <div class="assignments-grid">
+                <div class="assignment-card upload-card">
+                    <div class="assignment-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                    <h3>Upload Assignment</h3>
+                    <div class="upload-area" id="uploadArea">
+                        <i class="fas fa-file-upload"></i>
+                        <p>Drag & drop or click to browse</p>
+                        <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx">
+                    </div>
+                    <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()"><i class="fas fa-upload"></i> Choose Files</button>
+                    <div id="uploadList" class="upload-list"></div>
+                </div>
+                <div class="assignment-card read-card">
+                    <div class="assignment-icon"><i class="fas fa-folder-open"></i></div>
+                    <h3>My Submitted Work</h3>
+                    <div class="file-list">
+                        <div class="file-item">
+                            <i class="fas fa-file-pdf"></i>
+                            <span>Satellite Communication Assignment</span>
+                            <div class="file-actions">
+                                <button id="downloadPdfBtn" class="read-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                <button id="viewPdfBtn" class="read-btn view-btn"><i class="fas fa-eye"></i> View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="assignment-card links-card">
+                    <div class="assignment-icon"><i class="fas fa-external-link-alt"></i></div>
+                    <h3>Quick Links</h3>
+                    <div class="quick-links">
+                        <a href="https://github.com/charlotteosei070-ops/DATA-COMM" target="_blank" class="link-btn"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://www.youtube.com/results?search_query=data+communication+tutorial" target="_blank" class="link-btn"><i class="fab fa-youtube"></i> YouTube Tutorials</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Intro Section -->
+    <section class="intro-section">
+        <div class="container">
+            <h2 class="section-title">Introduction to Data Communication</h2>
+            <div class="intro-content">
+                <div class="intro-text">
+                    <p class="lead">Data communication is the exchange of data between two devices via some form of transmission medium.</p>
+                    <div class="components-grid">
+                        <div class="component-item"><i class="fas fa-paper-plane"></i><h4>Sender</h4></div>
+                        <div class="component-item"><i class="fas fa-envelope"></i><h4>Message</h4></div>
+                        <div class="component-item"><i class="fas fa-road"></i><h4>Medium</h4></div>
+                        <div class="component-item"><i class="fas fa-inbox"></i><h4>Receiver</h4></div>
+                        <div class="component-item"><i class="fas fa-file-contract"></i><h4>Protocol</h4></div>
+                    </div>
+                </div>
+                <div class="intro-diagram">
+                    <img src="https://kimi-web-img.moonshot.cn/img/media.geeksforgeeks.org/6d8e110c65b790bf5c47cd49e00018c678b3b466.png" alt="Components">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section"><h4>Data Communication Course</h4><p>Semester Portfolio</p></div>
+                <div class="footer-section"><h4>Contact</h4><p><i class="fas fa-envelope"></i> charlotteosei070@gmail.com</p><p><i class="fab fa-github"></i> github.com/charlotteosei</p></div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PDF Viewer Modal – renders PDF pages as images using PDF.js -->
+    <!-- PDF Viewer Modal -->
+    <div id="pdfViewerModal" class="modal file-modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="pdfModalTitle"><i class="fas fa-file-pdf"></i> PDF Viewer</h2>
+                <button class="close-btn" onclick="closePDFViewer()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="viewer-actions">
+                    <button id="modalDownloadBtn" class="btn-primary"><i class="fas fa-download"></i> Download PDF</button>
+                    <span id="pdfViewerHint">Ready</span>
+                </div>
+                <div id="pdfPagesContainer"><div class="loading-message">Click "View" to load the PDF.</div></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configure PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+        // Storage key for the saved PDF data
+        const STORAGE_KEY = 'saved_pdf_data';
+
+        // Get saved PDF data (object URL and filename) from localStorage
+        let savedPdfData = null;
+        let currentBlobUrl = null;
+
+        function loadSavedPdfData() {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return null;
+            try {
+                const data = JSON.parse(raw);
+                // data contains: { filename, blobUrl } but blobUrl expires, so we need to recreate from base64?
+                // Actually localStorage cannot store Blob URLs directly. Better to store the file as base64 or just the filename and rely on re-selection.
+                // Simpler: only store that a file was selected, but we cannot restore the blob after page reload.
+                // So we'll store the file content as base64.
+                if (data.base64 && data.filename) {
+                    return { base64: data.base64, filename: data.filename };
+                }
+            } catch(e) {}
+            return null;
+        }
+
+        function savePdfFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64 = e.target.result;
+                    const data = { base64: base64, filename: file.name };
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                    resolve(data);
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Convert base64 to Blob URL
+        function base64ToBlobUrl(base64, filename) {
+            const byteString = atob(base64.split(',')[1]);
+            const mimeString = base64.split(',')[0].split(':')[1].split(';')[0];
+            const ab = new ArrayBuffer(byteString.length);
+            const ia = new Uint8Array(ab);
+            for (let i = 0; i < byteString.length; i++) ia[i] = byteString.charCodeAt(i);
+            const blob = new Blob([ab], { type: mimeString });
+            return URL.createObjectURL(blob);
+        }
+
+        // Get the current PDF blob URL and filename (restore from localStorage or prompt user)
+        async function getPdfBlobUrlAndFilename() {
+            const saved = loadSavedPdfData();
+            if (saved && saved.base64) {
+                const blobUrl = base64ToBlobUrl(saved.base64, saved.filename);
+                return { url: blobUrl, filename: saved.filename, fromStorage: true };
+            }
+            // No saved file, ask user to select
+            return new Promise((resolve) => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'application/pdf';
+                input.onchange = async (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return resolve(null);
+                    await savePdfFile(file);
+                    const blobUrl = URL.createObjectURL(file);
+                    resolve({ url: blobUrl, filename: file.name, fromStorage: false });
+                };
+                input.click();
+            });
+        }
+
+        // Render PDF from blob URL
+        async function renderPdfFromBlob(blobUrl, filename) {
+            const container = document.getElementById('pdfPagesContainer');
+            const hintSpan = document.getElementById('pdfViewerHint');
+            const modalTitle = document.getElementById('pdfModalTitle');
+            const modalDownloadBtn = document.getElementById('modalDownloadBtn');
+            
+            modalTitle.innerHTML = `<i class="fas fa-file-pdf" style="color:#e53e3e;"></i> ${filename}`;
+            modalDownloadBtn.onclick = () => {
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = filename;
+                a.click();
+            };
+            
+            container.innerHTML = '<div class="loading-message"><i class="fas fa-spinner fa-pulse"></i> Rendering PDF pages as images...</div>';
+            hintSpan.textContent = 'Rendering...';
+            
+            try {
+                const loadingTask = pdfjsLib.getDocument(blobUrl);
+                const pdf = await loadingTask.promise;
+                const numPages = pdf.numPages;
+                container.innerHTML = '';
+                for (let i = 1; i <= numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const viewport = page.getViewport({ scale: 1.5 });
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    canvas.className = 'pdf-page-canvas';
+                    await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+                    container.appendChild(canvas);
+                    const label = document.createElement('div');
+                    label.style.color = '#ccc';
+                    label.style.fontSize = '0.8rem';
+                    label.style.marginTop = '4px';
+                    label.textContent = `Page ${i} of ${numPages}`;
+                    container.appendChild(label);
+                }
+                hintSpan.innerHTML = `<i class="fas fa-check-circle" style="color:#10b981;"></i> Rendered ${numPages} page(s).`;
+            } catch (err) {
+                container.innerHTML = `<div class="error-message">Failed to render PDF: ${err.message}</div>`;
+                hintSpan.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error';
+            }
+        }
+
+        // View button click handler
+        async function handleView() {
+            const modal = document.getElementById('pdfViewerModal');
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            const result = await getPdfBlobUrlAndFilename();
+            if (!result) {
+                closePDFViewer();
+                return;
+            }
+            // Store current blob URL for later use in download button (already handled in modal)
+            await renderPdfFromBlob(result.url, result.filename);
+        }
+
+        // Download button (outside modal) – directly trigger download of the saved PDF
+        async function handleDownload() {
+            const result = await getPdfBlobUrlAndFilename();
+            if (result) {
+                const a = document.createElement('a');
+                a.href = result.url;
+                a.download = result.filename;
+                a.click();
+            }
+        }
+
+        function closePDFViewer() {
+            const modal = document.getElementById('pdfViewerModal');
+            const container = document.getElementById('pdfPagesContainer');
+            container.innerHTML = '';
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        // Event listeners
+        document.getElementById('viewPdfBtn').addEventListener('click', handleView);
+        document.getElementById('downloadPdfBtn').addEventListener('click', handleDownload);
+        document.getElementById('pdfViewerModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closePDFViewer();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closePDFViewer();
+        });
+
+        // Initialize: preload saved data for the download button (optional)
+        // Nothing else needed.
+    </script>
+</body>
+</html>

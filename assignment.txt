@@ -1,0 +1,38 @@
+Assignment — Data Communication
+
+Course: Data Communication
+Student: Your Name Here
+ID: 000000
+
+Instructions:
+1. Read the list of topics covered this semester.
+2. Prepare a short report explaining one legacy communication device (telegraph) and how it relates to modern systems.
+3. Include a diagram, a short personal video, and a photo.
+4. Submit the report and supporting files.
+
+Course Outline:
+Week 1: Introduction to data communication and networking
+Week 2: Network Reference Models
+Week 3: Data and Signals
+Week 4: Transmission mediums
+Week 6: Digital transmission
+Week 7: Analog Transmission
+Week 8: Multiplexing
+Week 9: Cryptography
+Week 10: Network Security
+Week 11: Research and Presentations
+Week 12: Revision
+
+Reading Materials:
+Prescribed textbooks and online materials for each week.
+
+Activities:
+Lectures and tutorials for Weeks 1-10, presentations in Week 11, and revision in Week 12.
+
+Deliverables:
+- This assignment document (copy)
+- A short video (yourself)
+- A photo (headshot)
+- Any diagrams and references
+
+Replace the placeholders above with the exact assignment text from your instructor if needed.
