@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Communication - Course Portfolio | Permanent PDF Resource</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- PDF.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <!-- jsPDF library to generate the permanent assignment PDF dynamically (content is fixed & identical for all visitors) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        /* PDF viewer modal styles */
+        .file-modal .modal-content {
+            max-width: 90%;
+            width: 1000px;
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .file-modal .modal-body {
+            flex: 1;
+            overflow: auto;
+            padding: 0;
+            background: #525659;
+        }
+        .viewer-actions {
+            padding: 12px;
+            background: #f5f7fa;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .btn-primary {
+            background: #3182ce;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-primary:hover { background: #2c5282; }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #718096;
+        }
+        .close-btn:hover { color: #e53e3e; }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            background: white;
+        }
+        /* PDF canvas container – each page as an image */
+        #pdfPagesContainer {
+            background: #525659;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            gap: 20px;
+        }
+        .pdf-page-canvas {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            background: white;
+            max-width: 100%;
+            height: auto;
+        }
+        .loading-message {
+            color: white;
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+        }
+        .error-message {
+            color: #fc8181;
+            text-align: center;
+            padding: 40px;
+        }
+        /* Additional UI polish */
+        .permanent-badge {
+            background: #10b98120;
+            border-left: 3px solid #10b981;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #0a5c3e;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-network-wired"></i>
+                <span>DataComm</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#topics" class="nav-link">Topics</a></li>
+                <li><a href="#resources" class="nav-link">Resources</a></li>
+                <li><a href="#assignments" class="nav-link">Assignments</a></li>
+                <li><a href="#about" class="nav-link">About Me</a></li>
+                <li><a href="https://github.com/charlotteosei070-ops/DATA-COMM" target="_blank" class="nav-link nav-github"><i class="fab fa-github"></i> GitHub</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Data Communication</h1>
+                <p class="subtitle">Exploring the Fundamentals of Modern Networking</p>
+                <p class="student-info">
+                    <strong>Student:</strong> <span>Charlotte Adamptey</span>
+                    <strong>ID:</strong> <span>PUIT/24110064</span>
+                </p>
+            </div>
+            <div class="hero-visual">
+                <div class="network-animation">
+                    <div class="node node-1"><i class="fas fa-server"></i></div>
+                    <div class="node node-2"><i class="fas fa-laptop"></i></div>
+                    <div class="node node-3"><i class="fas fa-mobile-alt"></i></div>
+                    <div class="node node-4"><i class="fas fa-database"></i></div>
+                    <div class="connection conn-1"></div>
+                    <div class="connection conn-2"></div>
+                    <div class="connection conn-3"></div>
+                    <div class="connection conn-4"></div>
+                    <div class="data-packet packet-1"></div>
+                    <div class="data-packet packet-2"></div>
+                    <div class="data-packet packet-3"></div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-grid">
+                <div class="about-image">
+                    <div class="image-frame">
+                        <img src="images/Me.png" alt="Student Photo" onerror="this.src='https://via.placeholder.com/300x300?text=Charlotte'">
+                    </div>
+                </div>
+                <div class="about-content">
+                    <h3>Hello, I'm <span class="highlight">Charlotte Adamptey</span></h3>
+                    <p class="bio-text">
+                        I am a dedicated student passionate about understanding how data moves across the world. 
+                        This semester has been an incredible journey exploring the foundations of data communication.
+                    </p>
+                    <div class="info-cards">
+                        <div class="info-card"><i class="fas fa-graduation-cap"></i><h4>Education</h4><p>Computer Science / IT Student</p></div>
+                        <div class="info-card"><i class="fas fa-bullseye"></i><h4>Goal</h4><p>Network Engineer</p></div>
+                        <div class="info-card"><i class="fas fa-heart"></i><h4>Passion</h4><p>Networking & Security</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inspiration Section -->
+    <section class="inspiration-section">
+        <div class="container">
+            <div class="inspiration-quote">
+                <i class="fas fa-quote-left quote-icon"></i>
+                <blockquote>"The art of communication is the language of leadership. In the digital age, understanding data communication is not just a skill—it's a superpower that connects the world."</blockquote>
+                <cite>— My Inspiration for This Course</cite>
+            </div>
+        </div>
+    </section>
+
+    <!-- Topics Section -->
+    <section id="topics" class="topics-section">
+        <div class="container">
+            <h2 class="section-title">Topics Treated This Semester</h2>
+            <p class="section-subtitle">Click on any topic to explore detailed explanations</p>
+            <div class="topics-grid">
+                <div class="topic-card" data-topic="intro"><div class="topic-icon"><i class="fas fa-book-open"></i></div><h3>Introduction to Data Communication</h3><p>Fundamentals, components, and the communication model</p><span class="topic-btn">Learn More <i class="fas fa-arrow-right"></i></span></div>
+                <div class="topic-card" data-topic="telegraph"><div class="topic-icon"><i class="fas fa-broadcast-tower"></i></div><h3>History: The Telegraph</h3><p>Understanding the first electrical communication system</p><span class="topic-btn">Learn More <i class="fas fa-arrow-right"></i></span></div>
+                <div class="topic-card" data-topic="signals"><div class="topic-icon"><i class="fas fa-wave-square"></i></div><h3>Signals & Transmission</h3><p>Analog, digital, modulation, and encoding techniques</p><span class="topic-btn">Learn More <i class="fas fa-arrow-right"></i></span></div>
+                <div class="topic-card" data-topic="media"><div class="topic-icon"><i class="fas fa-ethernet"></i></div><h3>Transmission Media</h3><p>Guided and unguided media, cables, and wireless</p><span class="topic-btn">Learn More <i class="fas fa-arrow-right"></i></span></div>
+                <div class="topic-card" data-topic="networks"><div class="topic-icon"><i class="fas fa-project-diagram"></i></div><h3>Network Topologies</h3><p>Bus, star, ring, mesh, and hybrid configurations</p><span class="topic-btn">Learn More <i class="fas fa-arrow-right"></i></span></div>
+                <div class="topic-card" data-topic="protocols"><div class="topic-icon"><i class="fas fa-layer-group"></i></div><h3>Protocols & Standards</h3><p>OSI model, TCP/IP, and communication protocols</p><span class="topic-btn">Learn More <i class="fas fa-arrow-right"></i></span></div>
+                <div class="topic-card" data-topic="error"><div class="topic-icon"><i class="fas fa-shield-alt"></i></div><h3>Error Detection & Correction</h3><p>Parity, checksum, CRC, and Hamming codes</p><span class="topic-btn">Learn More <i class="fas fa-arrow-right"></i></span></div>
+                <div class="topic-card" data-topic="switching"><div class="topic-icon"><i class="fas fa-random"></i></div><h3>Switching Techniques</h3><p>Circuit, packet, and message switching methods</p><span class="topic-btn">Learn More <i class="fas fa-arrow-right"></i></span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Topic Modal -->
+    <div id="topicModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Topic Title</h2>
+                <button class="back-btn" onclick="closeModal()"><i class="fas fa-arrow-left"></i> Back</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Telegraph Section (shortened) -->
+    <section class="telegraph-section">
+        <div class="container">
+            <h2 class="section-title">Understanding the Telegraph</h2>
+            <div class="telegraph-content">
+                <div class="telegraph-diagram">
+                    <img src="https://kimi-web-img.moonshot.cn/img/letstalkscience.ca/ae89c978fc72f33c4d45f967cd98ac6e01ca6520.png" alt="Telegraph Key Diagram">
+                    <p class="diagram-caption">Fig 1: Telegraph Key - The First Digital Communication Device</p>
+                </div>
+                <div class="telegraph-explanation">
+                    <h3>How a Layman Understands the Telegraph</h3>
+                    <div class="explanation-steps">
+                        <div class="step"><div class="step-number">1</div><div class="step-content"><h4>The Button (Key)</h4><p>Think of it like a doorbell button. When you press it, electricity flows.</p></div></div>
+                        <div class="step"><div class="step-number">2</div><div class="step-content"><h4>The Wire</h4><p>Just like a garden hose carries water, the wire carries electricity from point A to point B.</p></div></div>
+                        <div class="step"><div class="step-number">3</div><div class="step-content"><h4>The Sounder</h4><p>At the other end, a metal bar clicks when electricity arrives. Short click = dot, long click = dash.</p></div></div>
+                        <div class="step"><div class="step-number">4</div><div class="step-content"><h4>Morse Code</h4><p>Patterns of dots and dashes represent letters. SOS = ··· ––– ···</p></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources" class="resources-section">
+        <div class="container">
+            <h2 class="section-title">Learning Resources</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-icon"><i class="fas fa-video"></i></div>
+                    <h3>Video Tutorials</h3>
+                    <div class="video-container">
+                        <iframe id="youtubeVideo" width="560" height="315" src="https://www.youtube.com/embed/ULgKbLWhgEM" title="YouTube" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <button class="change-video-btn" onclick="changeVideo()"><i class="fas fa-play-circle"></i> Change Video</button>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon"><i class="fas fa-book"></i></div>
+                    <h3>Reference Materials</h3>
+                    <ul class="resource-list">
+                        <li><a href="#" data-resource="textbook"><i class="fas fa-file-pdf"></i> Course Textbook PDF (Info)</a></li>
+                        <li><a href="#" data-resource="lecture-notes"><i class="fas fa-file-pdf"></i> Lecture Notes Week 1-6 (Info)</a></li>
+                    </ul>
+                </div>
+                <div class="resource-card">
+                    <div class="resource-icon"><i class="fas fa-link"></i></div>
+                    <h3>External Links</h3>
+                    <ul class="resource-list">
+                        <li><a href="https://www.geeksforgeeks.org/data-communication-definition-components-types-channels/" target="_blank">GeeksforGeeks</a></li>
+                        <li><a href="https://www.tutorialspoint.com/data_communication_computer_network/index.htm" target="_blank">TutorialsPoint</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Assignments Section - PERMANENT PDF INTEGRATED -->
+    <section id="assignments" class="assignments-section">
+        <div class="container">
+            <h2 class="section-title">Assignments & Projects</h2>
+            <div class="assignments-grid">
+                <div class="assignment-card upload-card">
+                    <div class="assignment-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                    <h3>Upload Additional Work</h3>
+                    <div class="upload-area" id="uploadArea">
+                        <i class="fas fa-file-upload"></i>
+                        <p>Drag & drop or click to browse</p>
+                        <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx">
+                    </div>
+                    <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()"><i class="fas fa-upload"></i> Choose Files</button>
+                    <div id="uploadList" class="upload-list"></div>
+                </div>
+                <div class="assignment-card read-card">
+                    <div class="assignment-icon"><i class="fas fa-folder-open"></i></div>
+                    <h3>Official Assignment: Satellite Communication <span class="permanent-badge"><i class="fas fa-database"></i> Permanently embedded</span></h3>
+                    <div class="file-list">
+                        <div class="file-item">
+                            <i class="fas fa-file-pdf"></i>
+                            <span><strong>Satellite Communication Assignment.pdf</strong> (complete analysis)</span>
+                            <div class="file-actions">
+                                <button id="downloadPdfBtn" class="read-btn download-btn"><i class="fas fa-download"></i> Download</button>
+                                <button id="viewPdfBtn" class="read-btn view-btn"><i class="fas fa-eye"></i> View</button>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="font-size:0.8rem; margin-top:12px; color:#2c5282;"><i class="fas fa-check-circle"></i> This PDF is permanently available to all visitors — no upload needed.</p>
+                </div>
+                <div class="assignment-card links-card">
+                    <div class="assignment-icon"><i class="fas fa-external-link-alt"></i></div>
+                    <h3>Quick Links</h3>
+                    <div class="quick-links">
+                        <a href="https://github.com/charlotteosei070-ops/DATA-COMM" target="_blank" class="link-btn"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://www.youtube.com/results?search_query=data+communication+tutorial" target="_blank" class="link-btn"><i class="fab fa-youtube"></i> YouTube Tutorials</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Intro Section -->
+    <section class="intro-section">
+        <div class="container">
+            <h2 class="section-title">Introduction to Data Communication</h2>
+            <div class="intro-content">
+                <div class="intro-text">
+                    <p class="lead">Data communication is the exchange of data between two devices via some form of transmission medium.</p>
+                    <div class="components-grid">
+                        <div class="component-item"><i class="fas fa-paper-plane"></i><h4>Sender</h4></div>
+                        <div class="component-item"><i class="fas fa-envelope"></i><h4>Message</h4></div>
+                        <div class="component-item"><i class="fas fa-road"></i><h4>Medium</h4></div>
+                        <div class="component-item"><i class="fas fa-inbox"></i><h4>Receiver</h4></div>
+                        <div class="component-item"><i class="fas fa-file-contract"></i><h4>Protocol</h4></div>
+                    </div>
+                </div>
+                <div class="intro-diagram">
+                    <img src="https://kimi-web-img.moonshot.cn/img/media.geeksforgeeks.org/6d8e110c65b790bf5c47cd49e00018c678b3b466.png" alt="Components">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section"><h4>Data Communication Course</h4><p>Semester Portfolio</p></div>
+                <div class="footer-section"><h4>Contact</h4><p><i class="fas fa-envelope"></i>charlotteosei070@gmail.com</p><p><i class="fab fa-github"></i>github.com/charlotteosei070-ops/DATA-COMM</p></div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PDF Viewer Modal for permanent PDF -->
+    <div id="pdfViewerModal" class="modal file-modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="pdfModalTitle"><i class="fas fa-file-pdf"></i> PDF Viewer</h2>
+                <button class="close-btn" onclick="closePDFViewer()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="viewer-actions">
+                    <button id="modalDownloadBtn" class="btn-primary"><i class="fas fa-download"></i> Download PDF</button>
+                    <span id="pdfViewerHint">📄 Permanently available assignment</span>
+                </div>
+                <div id="pdfPagesContainer"><div class="loading-message"><i class="fas fa-file-pdf"></i> Ready — click "View" to open the assignment</div></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configure PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+        
+        // ---------- PERMANENT PDF GENERATION (identical for every visitor, no upload required) ----------
+        let permanentPdfBlobUrl = null;
+        let permanentPdfFilename = "Satellite_Communication_Assignment.pdf";
+        
+        // Function to generate the comprehensive Satellite Communication PDF using jsPDF
+        function generatePermanentPdfBlob() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+            let y = 20;
+            const marginLeft = 20;
+            const pageWidth = 210;
+            const maxWidth = pageWidth - 2 * marginLeft;
+            
+            // Helper to add text and return new Y position
+            function addTitle(text, size = 16, isBold = true) {
+                doc.setFontSize(size);
+                doc.setFont("helvetica", isBold ? "bold" : "normal");
+                doc.text(text, marginLeft, y);
+                y += 8;
+            }
+            function addBody(text, fontSize = 11) {
+                doc.setFontSize(fontSize);
+                doc.setFont("helvetica", "normal");
+                const lines = doc.splitTextToSize(text, maxWidth);
+                doc.text(lines, marginLeft, y);
+                y += lines.length * 5.5;
+            }
+            function addSpacing(space = 5) { y += space; }
+            function checkPage() {
+                if (y > 270) {
+                    doc.addPage();
+                    y = 20;
+                }
+            }
+            
+            // --- Content: Satellite Communication Assignment ---
+            addTitle("Satellite Communication Assignment", 18, true);
+            addBody(`Student: Charlotte Adamptey (PUIT/24110064)`);
+            addBody(`Course: Data Communication & Networks`);
+            addBody(`Date: ${new Date().toLocaleDateString()}`);
+            addSpacing(6);
+            
+            addTitle("1. Introduction", 14, true);
+            addBody("Satellite communication is a crucial component of modern data communication systems. It uses artificial satellites orbiting Earth to relay signals between ground stations, enabling long-distance communication, broadcasting, internet services, and global connectivity. This assignment explores the fundamentals, types, frequency bands, advantages, and real-world applications of satellite systems.");
+            addSpacing(3);
+            
+            addTitle("2. Types of Satellites by Orbit", 14, true);
+            addBody("• LEO (Low Earth Orbit): 500–2000 km altitude. Low latency, ideal for Earth observation and Iridium/Starlink networks. Offers fast data links with minimal delay.");
+            addBody("• MEO (Medium Earth Orbit): 10,000–20,000 km. Used by GPS satellites (20,200 km). Balanced coverage and latency.");
+            addBody("• GEO (Geostationary Earth Orbit): ~35,786 km. Appears stationary above equator. Ideal for TV broadcasting, weather monitoring, and global fixed-satellite services.");
+            addSpacing(3);
+            
+            addTitle("3. Frequency Bands for Data Transmission", 14, true);
+            addBody("Satellite links operate in specific bands to balance bandwidth, atmospheric absorption, and hardware cost:");
+            addBody("- C-band (4–8 GHz): Resilient to rain fade, used for broadcast and backhaul.");
+            addBody("- Ku-band (12–18 GHz): Higher throughput, smaller dishes, common for VSAT and direct-to-home TV.");
+            addBody("- Ka-band (26–40 GHz): Very high bandwidth but susceptible to rain fade; growing for high-speed internet (Starlink, OneWeb).");
+            addSpacing(3);
+            
+            addTitle("4. Key Components & Working", 14, true);
+            addBody("A satellite communication system consists of: Ground Segment (Earth stations, antennas, transceivers) and Space Segment (satellite payload with transponders). The process: uplink signal from earth station → satellite amplifies and changes frequency → downlink to receiving station. Modern satellites employ digital processing, beamforming, and inter-satellite links.");
+            addSpacing(3);
+            
+            addTitle("5. Advantages & Challenges", 14, true);
+            addBody("✅ Advantages: Global coverage, disaster-resilient communication, broadcast efficiency, support for maritime/aviation/remote areas, backbone for international connectivity.");
+            addBody("⚠️ Challenges: High launch cost, propagation delay (especially GEO ~250ms), signal attenuation in heavy rain, orbital debris, and spectrum management.");
+            addSpacing(3);
+            
+            addTitle("6. Real-World Applications", 14, true);
+            addBody("• Telecommunication & Internet Trunking (backbone links)");
+            addBody("• Direct-to-Home Television (DTH) – e.g., Dish TV, DirecTV");
+            addBody("• Earth Observation & Weather Forecasting (Meteosat, GOES)");
+            addBody("• Military Communications & Secure Networks");
+            addBody("• Navigation Systems (GPS, Galileo, BeiDou)");
+            addBody("• Emergency & Disaster Response (restoring connectivity after infrastructure collapse)");
+            addSpacing(6);
+            
+            addTitle("7. Conclusion", 14, true);
+            addBody("Satellite communication remains indispensable for global data exchange. With the emergence of LEO mega-constellations, latency decreases while bandwidth increases, bridging the digital divide. Understanding satellite fundamentals helps future network engineers design robust hybrid (terrestrial + satellite) systems.");
+            addBody("\n--- End of Assignment ---");
+            
+            // Output as blob
+            const pdfBlob = doc.output('blob');
+            return pdfBlob;
+        }
+        
+        // Initialize permanent PDF and store blob URL globally
+        function initPermanentPdf() {
+            if (permanentPdfBlobUrl) {
+                URL.revokeObjectURL(permanentPdfBlobUrl);
+            }
+            const pdfBlob = generatePermanentPdfBlob();
+            permanentPdfBlobUrl = URL.createObjectURL(pdfBlob);
+            console.log("✅ Permanent PDF ready (Satellite Communication Assignment)");
+        }
+        
+        // Render PDF from the permanent blob inside modal
+        async function renderPermanentPdfInModal() {
+            if (!permanentPdfBlobUrl) {
+                initPermanentPdf();
+            }
+            const container = document.getElementById('pdfPagesContainer');
+            const hintSpan = document.getElementById('pdfViewerHint');
+            const modalTitle = document.getElementById('pdfModalTitle');
+            const modalDownloadBtn = document.getElementById('modalDownloadBtn');
+            
+            modalTitle.innerHTML = `<i class="fas fa-file-pdf" style="color:#e53e3e;"></i> ${permanentPdfFilename}`;
+            modalDownloadBtn.onclick = () => {
+                const a = document.createElement('a');
+                a.href = permanentPdfBlobUrl;
+                a.download = permanentPdfFilename;
+                a.click();
+            };
+            
+            container.innerHTML = '<div class="loading-message"><i class="fas fa-spinner fa-pulse"></i> Rendering permanent assignment PDF pages...</div>';
+            hintSpan.textContent = 'Loading PDF content...';
+            
+            try {
+                const loadingTask = pdfjsLib.getDocument(permanentPdfBlobUrl);
+                const pdf = await loadingTask.promise;
+                const numPages = pdf.numPages;
+                container.innerHTML = '';
+                for (let i = 1; i <= numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const viewport = page.getViewport({ scale: 1.3 });
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    canvas.className = 'pdf-page-canvas';
+                    await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+                    container.appendChild(canvas);
+                    const label = document.createElement('div');
+                    label.style.color = '#ddd';
+                    label.style.fontSize = '0.8rem';
+                    label.style.marginTop = '4px';
+                    label.textContent = `Page ${i} of ${numPages}`;
+                    container.appendChild(label);
+                }
+                hintSpan.innerHTML = `<i class="fas fa-check-circle" style="color:#10b981;"></i> Rendered ${numPages} page(s) — Satellite Communication Assignment`;
+            } catch (err) {
+                container.innerHTML = `<div class="error-message">Failed to render PDF: ${err.message}</div>`;
+                hintSpan.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error rendering';
+            }
+        }
+        
+        // View button handler (opens modal with permanent PDF)
+        async function handlePermanentView() {
+            const modal = document.getElementById('pdfViewerModal');
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            await renderPermanentPdfInModal();
+        }
+        
+        // Download handler for permanent PDF
+        function handlePermanentDownload() {
+            if (!permanentPdfBlobUrl) {
+                initPermanentPdf();
+            }
+            const a = document.createElement('a');
+            a.href = permanentPdfBlobUrl;
+            a.download = permanentPdfFilename;
+            a.click();
+        }
+        
+        // Modal close utilities
+        function closePDFViewer() {
+            const modal = document.getElementById('pdfViewerModal');
+            const container = document.getElementById('pdfPagesContainer');
+            if (container) container.innerHTML = '<div class="loading-message"><i class="fas fa-file-pdf"></i> Ready — click "View" to open the assignment</div>';
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+        
+        // Attach event listeners after DOM ready and ensure permanent PDF exists
+        document.addEventListener('DOMContentLoaded', () => {
+            initPermanentPdf();
+            
+            // Replace existing buttons with permanent PDF handlers
+            const viewBtn = document.getElementById('viewPdfBtn');
+            const downloadBtn = document.getElementById('downloadPdfBtn');
+            if (viewBtn) {
+                // Remove old listeners by cloning and replacing? simple reassign:
+                const newViewBtn = viewBtn.cloneNode(true);
+                viewBtn.parentNode.replaceChild(newViewBtn, viewBtn);
+                newViewBtn.addEventListener('click', handlePermanentView);
+            }
+            if (downloadBtn) {
+                const newDownloadBtn = downloadBtn.cloneNode(true);
+                downloadBtn.parentNode.replaceChild(newDownloadBtn, downloadBtn);
+                newDownloadBtn.addEventListener('click', handlePermanentDownload);
+            }
+            // Also attach modal download button (already set inside render, but extra safety)
+            const modalDownload = document.getElementById('modalDownloadBtn');
+            if (modalDownload) {
+                modalDownload.onclick = () => {
+                    if (permanentPdfBlobUrl) {
+                        const a = document.createElement('a');
+                        a.href = permanentPdfBlobUrl;
+                        a.download = permanentPdfFilename;
+                        a.click();
+                    }
+                };
+            }
+            // Ensure modal close on background click
+            const modalEl = document.getElementById('pdfViewerModal');
+            modalEl.addEventListener('click', (e) => {
+                if (e.target === modalEl) closePDFViewer();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closePDFViewer();
+            });
+        });
+        
+        // ----- Keep existing functionalities: topic modals, video switch, file upload list -----
+        function closeModal() { document.getElementById('topicModal').style.display = 'none'; }
+        const topicContents = {
+            intro: "<h3>Introduction to Data Communication</h3><p>Data communication refers to the exchange of data between devices via transmission medium. Key components: sender, receiver, message, medium, protocol.</p>",
+            telegraph: "<h3>History: The Telegraph</h3><p>Invented in 1830s, first electrical communication. Samuel Morse developed Morse code. Revolutionized long-distance messaging.</p>",
+            signals: "<h3>Signals & Transmission</h3><p>Analog (continuous) vs Digital (discrete). Modulation encodes data onto carrier waves. Common encoding: NRZ, Manchester.</p>",
+            media: "<h3>Transmission Media</h3><p>Guided: twisted pair, coaxial, fiber optic. Unguided: radio waves, microwaves, infrared.</p>",
+            networks: "<h3>Network Topologies</h3><p>Bus, star, ring, mesh, tree, hybrid. Each has trade-offs in cost, scalability, redundancy.</p>",
+            protocols: "<h3>Protocols & OSI Model</h3><p>OSI 7 layers: Physical, Data Link, Network, Transport, Session, Presentation, Application. TCP/IP is practical implementation.</p>",
+            error: "<h3>Error Detection & Correction</h3><p>Parity bits, Checksum, CRC (Cyclic Redundancy Check), Hamming codes for single-bit error correction.</p>",
+            switching: "<h3>Switching Techniques</h3><p>Circuit switching (dedicated path), Packet switching (store-and-forward, efficient), Message switching.</p>"
+        };
+        document.querySelectorAll('.topic-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const topic = card.dataset.topic;
+                const title = card.querySelector('h3')?.innerText || "Topic";
+                const content = topicContents[topic] || "<p>Detailed content available in course materials.</p>";
+                document.getElementById('modalTitle').innerText = title;
+                document.getElementById('modalBody').innerHTML = content;
+                document.getElementById('topicModal').style.display = 'flex';
+            });
+        });
+        window.changeVideo = function() {
+            const videoFrame = document.getElementById('youtubeVideo');
+            const videos = ["ULgKbLWhgEM", "VwN91x5i25g", "O7BQZlNYSCc", "3b_TAKtUcSk"];
+            const current = videoFrame.src.split('/embed/')[1]?.split('?')[0];
+            let next = videos[Math.floor(Math.random() * videos.length)];
+            while(next === current && videos.length > 1) next = videos[Math.floor(Math.random() * videos.length)];
+            videoFrame.src = `https://www.youtube.com/embed/${next}`;
+        };
+        // File upload UI for extra assignments (optional)
+        const fileInput = document.getElementById('fileInput');
+        const uploadList = document.getElementById('uploadList');
+        if(fileInput){
+            fileInput.addEventListener('change', (e) => {
+                uploadList.innerHTML = '';
+                Array.from(e.target.files).forEach(f => {
+                    const div = document.createElement('div');
+                    div.className = 'uploaded-file';
+                    div.innerHTML = `<i class="fas fa-file"></i> ${f.name} <span class="file-size">(${(f.size/1024).toFixed(1)} KB)</span>`;
+                    uploadList.appendChild(div);
+                });
+            });
+        }
+        // Close topic modal on outside click
+        window.onclick = function(e) {
+            const modal = document.getElementById('topicModal');
+            if (e.target === modal) modal.style.display = 'none';
+        };
+        // Navbar mobile toggle simple
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        if(hamburger) hamburger.addEventListener('click', () => { navMenu.classList.toggle('active'); });
+    </script>
+</body>
+</html>
