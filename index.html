@@ -406,63 +406,6 @@
                 y += lines.length * 5.5;
             }
             function addSpacing(space = 5) { y += space; }
-            function checkPage() {
-                if (y > 270) {
-                    doc.addPage();
-                    y = 20;
-                }
-            }
-            
-            // --- Content: Satellite Communication Assignment ---
-            addTitle("Satellite Communication Assignment", 18, true);
-            addBody(`Student: Charlotte Adamptey (PUIT/24110064)`);
-            addBody(`Course: Data Communication & Networks`);
-            addBody(`Date: ${new Date().toLocaleDateString()}`);
-            addSpacing(6);
-            
-            addTitle("1. Introduction", 14, true);
-            addBody("Satellite communication is a crucial component of modern data communication systems. It uses artificial satellites orbiting Earth to relay signals between ground stations, enabling long-distance communication, broadcasting, internet services, and global connectivity. This assignment explores the fundamentals, types, frequency bands, advantages, and real-world applications of satellite systems.");
-            addSpacing(3);
-            
-            addTitle("2. Types of Satellites by Orbit", 14, true);
-            addBody("• LEO (Low Earth Orbit): 500–2000 km altitude. Low latency, ideal for Earth observation and Iridium/Starlink networks. Offers fast data links with minimal delay.");
-            addBody("• MEO (Medium Earth Orbit): 10,000–20,000 km. Used by GPS satellites (20,200 km). Balanced coverage and latency.");
-            addBody("• GEO (Geostationary Earth Orbit): ~35,786 km. Appears stationary above equator. Ideal for TV broadcasting, weather monitoring, and global fixed-satellite services.");
-            addSpacing(3);
-            
-            addTitle("3. Frequency Bands for Data Transmission", 14, true);
-            addBody("Satellite links operate in specific bands to balance bandwidth, atmospheric absorption, and hardware cost:");
-            addBody("- C-band (4–8 GHz): Resilient to rain fade, used for broadcast and backhaul.");
-            addBody("- Ku-band (12–18 GHz): Higher throughput, smaller dishes, common for VSAT and direct-to-home TV.");
-            addBody("- Ka-band (26–40 GHz): Very high bandwidth but susceptible to rain fade; growing for high-speed internet (Starlink, OneWeb).");
-            addSpacing(3);
-            
-            addTitle("4. Key Components & Working", 14, true);
-            addBody("A satellite communication system consists of: Ground Segment (Earth stations, antennas, transceivers) and Space Segment (satellite payload with transponders). The process: uplink signal from earth station → satellite amplifies and changes frequency → downlink to receiving station. Modern satellites employ digital processing, beamforming, and inter-satellite links.");
-            addSpacing(3);
-            
-            addTitle("5. Advantages & Challenges", 14, true);
-            addBody("✅ Advantages: Global coverage, disaster-resilient communication, broadcast efficiency, support for maritime/aviation/remote areas, backbone for international connectivity.");
-            addBody("⚠️ Challenges: High launch cost, propagation delay (especially GEO ~250ms), signal attenuation in heavy rain, orbital debris, and spectrum management.");
-            addSpacing(3);
-            
-            addTitle("6. Real-World Applications", 14, true);
-            addBody("• Telecommunication & Internet Trunking (backbone links)");
-            addBody("• Direct-to-Home Television (DTH) – e.g., Dish TV, DirecTV");
-            addBody("• Earth Observation & Weather Forecasting (Meteosat, GOES)");
-            addBody("• Military Communications & Secure Networks");
-            addBody("• Navigation Systems (GPS, Galileo, BeiDou)");
-            addBody("• Emergency & Disaster Response (restoring connectivity after infrastructure collapse)");
-            addSpacing(6);
-            
-            addTitle("7. Conclusion", 14, true);
-            addBody("Satellite communication remains indispensable for global data exchange. With the emergence of LEO mega-constellations, latency decreases while bandwidth increases, bridging the digital divide. Understanding satellite fundamentals helps future network engineers design robust hybrid (terrestrial + satellite) systems.");
-            addBody("\n--- End of Assignment ---");
-            
-            // Output as blob
-            const pdfBlob = doc.output('blob');
-            return pdfBlob;
-        }
         
         // Initialize permanent PDF and store blob URL globally
         function initPermanentPdf() {
